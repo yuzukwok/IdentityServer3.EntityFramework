@@ -97,12 +97,12 @@ namespace IdentityServer3.EntityFramework
             try
             {
                 Logger.Info("Clearing tokens");
-
+                var utc = DateTime.UtcNow;
                 using (var db = CreateOperationalDbContext())
                 {
                     var query =
                         from token in db.Tokens
-                        where token.Expiry < DateTime.UtcNow
+                        where token.Expiry < utc
                         select token;
 
                     db.Tokens.RemoveRange(query);
